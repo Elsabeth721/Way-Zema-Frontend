@@ -1,19 +1,19 @@
 import 'dart:io';
-
+import 'dart:async';
 class Calculator {
-  void addition(int a, int b) {
+  void addition(num a, num b) {
     print(a + b);
   }
 
-  void subtraction(int a, int b) {
+  void subtraction(num a, num b) {
     print(a - b);
   }
 
-  void multiplication(int a, int b) {
+  void multiplication(num a, num b) {
     print(a * b);
   }
 
-  void division(int a, int b) {
+  void division(num a, num b) {
     try {
       print(a / b);
     } catch (err) {
@@ -22,11 +22,12 @@ class Calculator {
   }
 }
 
-void main() {
-  print('Enter the first number');
-  int? a = int.parse(stdin.readLineSync()!);
-  print('Enter the second number:');
-  int? b = int.parse(stdin.readLineSync()!);
+void main() async{
+  
+  print('Enter the first number: ');
+  num? a = num.parse(stdin.readLineSync()!);
+  print('Enter the second number: ');
+  num? b = num.parse(stdin.readLineSync()!);
   String? operation;
   Calculator calc1 = Calculator();
   print('Enter the operation you want to do: ');
@@ -34,27 +35,34 @@ void main() {
   switch (operation) {
     case '+':
       {
-        var add = calc1.addition(a, b);
-        Future.delayed(Duration(seconds: 5), () => add);
+        print('$a + $b is equal to: ');
+        var addi = calc1.addition(a, b);
+        Future.delayed(Duration(seconds: 5), () =>addi );
         break;
       }
     case '-':
       {
+        print('$a - $b is equal to: ');
         var sub = calc1.subtraction(a, b);
         Future.delayed(Duration(seconds: 5), () => sub);
         break;
       }
     case '*':
       {
+        print('$a * $b is equal to: ');
         var mult = calc1.multiplication(a, b);
         Future.delayed(Duration(seconds: 5), () => mult);
         break;
       }
     case '/':
       {
+        print('$a / $b is equal to: ');
         var div = calc1.division(a, b);
         Future.delayed(Duration(seconds: 5), () => div);
         break;
+      }
+      default: {
+        print('Invalid operation');
       }
   }
 }
