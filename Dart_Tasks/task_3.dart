@@ -1,29 +1,34 @@
 import 'dart:io';
 import 'dart:async';
+
 class Calculator {
-  void addition(num a, num b) {
-    print(a + b);
+  Future<void> addition(num a, num b) async {
+    await Future.delayed(Duration(seconds: 5), () => print(a + b));
   }
 
-  void subtraction(num a, num b) {
-    print(a - b);
+  Future<void> subtraction(num a, num b) async {
+    await Future.delayed(Duration(seconds: 5), () => print(a - b));
   }
 
-  void multiplication(num a, num b) {
-    print(a * b);
+  Future<void> multiplication(num a, num b) async {
+    await Future.delayed(Duration(seconds: 5), () => print(a * b));
   }
 
-  void division(num a, num b) {
+  Future<void> division(num a, num b) async {
     try {
-      print(a / b);
+      await Future.delayed(Duration(seconds: 5), () => print(a / b));
     } catch (err) {
-      print(err);
+      await Future.delayed(Duration(seconds: 5), () => print(err));
     }
   }
 }
 
-void main() async{
-  
+Future<void> main() async {
+  print('----------------------------------------');
+  print('----------------------------------------');
+  print('---------------CALCULATOR---------------');
+  print('----------------------------------------');
+  print('----------------------------------------');
   print('Enter the first number: ');
   num? a = num.parse(stdin.readLineSync()!);
   print('Enter the second number: ');
@@ -36,32 +41,29 @@ void main() async{
     case '+':
       {
         print('$a + $b is equal to: ');
-        var addi = calc1.addition(a, b);
-        Future.delayed(Duration(seconds: 5), () =>addi );
+        await calc1.addition(a, b);
         break;
       }
     case '-':
       {
         print('$a - $b is equal to: ');
-        var sub = calc1.subtraction(a, b);
-        Future.delayed(Duration(seconds: 5), () => sub);
+        await calc1.subtraction(a, b);
         break;
       }
     case '*':
       {
         print('$a * $b is equal to: ');
-        var mult = calc1.multiplication(a, b);
-        Future.delayed(Duration(seconds: 5), () => mult);
+        await calc1.multiplication(a, b);
         break;
       }
     case '/':
       {
         print('$a / $b is equal to: ');
-        var div = calc1.division(a, b);
-        Future.delayed(Duration(seconds: 5), () => div);
+        await calc1.division(a, b);
         break;
       }
-      default: {
+    default:
+      {
         print('Invalid operation');
       }
   }
