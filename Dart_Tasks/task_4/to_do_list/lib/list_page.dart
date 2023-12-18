@@ -3,12 +3,29 @@ import 'package:to_do_list/create_page.dart';
 import 'package:to_do_list/home_page.dart';
 import 'package:to_do_list/detail_page.dart';
 
-class ListPageWidget extends StatefulWidget {
-  @override
-  ListPage createState() => ListPage();
-}
+class ListPageWidget extends StatelessWidget {
+  final List<Map<String, dynamic>> user = [
+    {
+      "name": "Susan Lee",
+      "design": "lorem ispsum dfl kdlk dfv",
+      "date": "12/3/2023"
+    },
+    {
+      "name": "Susan Lee",
+      "design": "lorem ispsum dfl kdlk dfv",
+      "date": "12/3/2023"
+    },
+    {
+      "name": "Susan Lee",
+      "design": "lorem ispsum dfl kdlk dfv",
+      "date": "12/3/2023"
+    },
+    {
+      "name": "Susan Lee",
+      "design": "lorem ispsum dfl kdlk dfv",
+    },
+  ];
 
-class ListPage extends State<ListPageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +51,13 @@ class ListPage extends State<ListPageWidget> {
             child: PopupMenuButton(
               itemBuilder: (context) => [
                 PopupMenuItem(
-                    child: Row(
-                  children: [Icon(Icons.offline_bolt), Text('see more')],
-                ))
+                  child: Row(
+                    children: [
+                      Icon(Icons.offline_bolt),
+                      Text('see more'),
+                    ],
+                  ),
+                ),
               ],
               child: Icon(
                 Icons.more_vert,
@@ -56,88 +77,71 @@ class ListPage extends State<ListPageWidget> {
               style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DetailPageWidget()),
-              );
-            },
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-              child: Container(
-                height: 70.0,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
+          Expanded(
+            child: ListView.builder(
+              itemCount: user.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailPageWidget(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 110.0,
+                    child: Card(
+                      child: Row(
+                        children: [
+                          Text(user[index]['name'],
+                              style: TextStyle(
+                                fontSize: 19.0,
+                                fontWeight: FontWeight.w400,
+                              )),
+                          SizedBox(width: 10.0),
+                          Text(user[index]['design'],
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          SizedBox(width: 10.0),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                              user[index]['date'] ?? '',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text('U',
-                          style: TextStyle(
-                            fontSize: 25.0,
-                            fontWeight: FontWeight.w400,
-                          )),
-                    ),
-                    SizedBox(
-                      width: 17.0,
-                    ),
-                    Container(
-                      alignment: Alignment.topCenter,
-                      child: Text('UI/UX App Design',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    SizedBox(
-                      width: 60.0,
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      child: Text('April.29,2023'),
-                    ),
-                    SizedBox(
-                      width: 5.0,
-                    ),
-                    Container(
-                      alignment: Alignment.topRight,
-                      height: 55.0,
-                      width: 4.0,
-                      color: Colors.red,
-                    )
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 220.0, 20.0, 10.0),
+            padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
             child: TextButton(
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreatePageWidget()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CreatePageWidget(),
+                  ),
+                );
               },
               child: Text('Create Task'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
                 foregroundColor: MaterialStateProperty.all(Colors.white),
                 minimumSize: MaterialStateProperty.all(Size(90, 30)),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(0),
-                )),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                ),
               ),
             ),
           ),

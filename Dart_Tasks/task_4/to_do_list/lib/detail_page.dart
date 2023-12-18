@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:to_do_list/create_page.dart';
 import 'package:to_do_list/home_page.dart';
 
