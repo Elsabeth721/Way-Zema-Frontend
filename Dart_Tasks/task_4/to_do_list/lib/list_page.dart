@@ -96,13 +96,13 @@ class ListPageWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(user[index]['name'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 19.0,
                                 fontWeight: FontWeight.w400,
                               )),
-                          SizedBox(width: 10.0),
+                          const SizedBox(width: 10.0),
                           Text(user[index]['design'],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                               )),
@@ -122,7 +122,7 @@ class ListPageWidget extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
             child: TextButton(
               onPressed: () {
                 Navigator.push(
