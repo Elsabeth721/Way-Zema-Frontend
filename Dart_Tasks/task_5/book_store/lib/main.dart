@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
                   const SizedBox(height: 2.0),
                   Container(
                     width: 363.0,
-                    height: 190.0,
+                    height: 210.0,
                     child: const Card(
                       color: Colors.blue,
                       elevation: 1.0,
@@ -314,7 +314,7 @@ class MyApp extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: MyBottomNavigationBar(),
+        bottomNavigationBar: NavigationBar(),
       ),
     );
   }
@@ -656,12 +656,12 @@ class NewsClass extends StatelessWidget {
   }
 }
 
-class MyBottomNavigationBar extends StatefulWidget {
+class NavigationBar extends StatefulWidget {
   @override
-  _MyBottomNavigationBarState createState() => _MyBottomNavigationBarState();
+  _NavigationBarState createState() => _NavigationBarState();
 }
 
-class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
+class _NavigationBarState extends State<NavigationBar> {
   int _currentIndex = 0;
 
   @override
@@ -674,24 +674,30 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
         });
       },
       items: [
-        buildNavItem(icon: Icons.home, label: 'Home'),
-        buildNavItem(icon: Icons.search, label: 'Search'),
-        buildNavItem(icon: Icons.favorite, label: 'Favorites'),
-        buildNavItem(icon: Icons.shopping_cart, label: 'Cart'),
-        buildNavItem(icon: Icons.person, label: 'Profile'),
+        buildNavItem(image: 'images/web-content.png', label: ''),
+        buildNavItem(image: 'images/open-book.png', label: ''),
+        buildNavItem(image: 'images/home-button 1.png', label: ''),
+        buildNavItem(image: 'images/book.png', label: ''),
+        buildNavItem(image: 'images/user (2) 1.png', label: ''),
       ],
     );
   }
 
   BottomNavigationBarItem buildNavItem(
-      {required IconData icon, required String label}) {
+      {required String image, required String label}) {
     return BottomNavigationBarItem(
       icon: IndexedStack(
-        index: _currentIndex == items.indexOf(icon) ? 1 : 0,
+        index: _currentIndex == items.indexOf(image) ? 1 : 0,
         children: [
-          Icon(icon),
+          ImageIcon(
+            AssetImage(image),
+            color: Colors.black, 
+          ),
           MouseRegion(
-            child: Icon(icon),
+            child: ImageIcon(
+              AssetImage(image),
+              color: Colors.black, 
+            ),
           ),
         ],
       ),
@@ -699,12 +705,12 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     );
   }
 
-  List<IconData> get items => [
-        Icons.home,
-        Icons.search,
-        Icons.favorite,
-        Icons.shopping_cart,
-        Icons.person,
+  List<String> get items => [
+        'images/web-content.png',
+        'images/open-book.png',
+        'images/home-button 1.png',
+        'images/book.png',
+        'images/user(2) 1.png',
       ];
 }
 
