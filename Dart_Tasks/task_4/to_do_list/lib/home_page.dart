@@ -26,12 +26,12 @@ class HomePage extends StatelessWidget {
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    minimumSize: MaterialStateProperty.all(Size(120, 40)),
+                    minimumSize: MaterialStateProperty.all(const Size(120, 40)),
                     shape: MaterialStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0),
                     )),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Get Started',
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),

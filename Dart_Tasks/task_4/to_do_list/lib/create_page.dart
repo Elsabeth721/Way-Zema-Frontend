@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list/home_page.dart';
-import 'package:date_picker_timeline/date_picker_timeline.dart';
+import 'package:provider/provider.dart';
+import 'home_page.dart';
+import 'task_model.dart';
+import 'task_provider.dart';
 
 class CreatePageWidget extends StatefulWidget {
+  const CreatePageWidget({super.key});
+
   @override
   CreatePage createState() => CreatePage();
 }
 
 class CreatePage extends State<CreatePageWidget> {
+  TextEditingController taskNameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  DateTime? selectedDate;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,10 +24,10 @@ class CreatePage extends State<CreatePageWidget> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
-          child: Icon(
+          child: const Icon(
             Icons.chevron_left,
             color: Colors.red,
             size: 55.0,
@@ -27,15 +35,16 @@ class CreatePage extends State<CreatePageWidget> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 10.0),
+            padding: const EdgeInsets.only(right: 10.0),
             child: PopupMenuButton(
               itemBuilder: (context) => [
-                PopupMenuItem(
-                    child: Row(
-                  children: [Icon(Icons.offline_bolt), Text('see more')],
-                ))
+                const PopupMenuItem(
+                  child: Row(
+                    children: [Icon(Icons.offline_bolt), Text('see more')],
+                  ),
+                ),
               ],
-              child: Icon(
+              child: const Icon(
                 Icons.more_vert,
                 size: 50.0,
               ),
@@ -48,18 +57,18 @@ class CreatePage extends State<CreatePageWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Center(
+            const Center(
               child: Text(
                 'Create a new task',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0),
               ),
             ),
-            SizedBox(height: 5.0),
-            Text(
+            const SizedBox(height: 5.0),
+            const Text(
               'Main task name',
               style: TextStyle(fontSize: 16.0, color: Colors.red),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -69,23 +78,24 @@ class CreatePage extends State<CreatePageWidget> {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: TextField(
-                decoration: InputDecoration(
+                controller: taskNameController,
+                decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(16.0),
                   border: InputBorder.none,
                 ),
               ),
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Due date',
               style: TextStyle(fontSize: 16.0, color: Colors.red),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -95,7 +105,7 @@ class CreatePage extends State<CreatePageWidget> {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -107,14 +117,23 @@ class CreatePage extends State<CreatePageWidget> {
                     firstDate: DateTime(2022),
                     lastDate: DateTime(2025),
                   );
+                  if (pickedDate != null && pickedDate != selectedDate) {
+                    setState(() {
+                      selectedDate = pickedDate;
+                    });
+                  }
                 },
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(' '),
-                      Icon(
+                      Text(
+                        selectedDate != null
+                            ? selectedDate!.toLocal().toString().split(' ')[0]
+                            : ' ',
+                      ),
+                      const Icon(
                         Icons.calendar_today,
                         size: 30,
                         color: Colors.red,
@@ -124,12 +143,12 @@ class CreatePage extends State<CreatePageWidget> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
-            Text(
+            const SizedBox(height: 20.0),
+            const Text(
               'Description',
               style: TextStyle(fontSize: 16.0, color: Colors.red),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -139,25 +158,38 @@ class CreatePage extends State<CreatePageWidget> {
                     color: Colors.grey.withOpacity(0.3),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: TextField(
-                decoration: InputDecoration(
+                controller: descriptionController,
+                decoration: const InputDecoration(
                   contentPadding: EdgeInsets.all(16.0),
                   border: InputBorder.none,
                 ),
               ),
             ),
-            SizedBox(height: 45.0),
+            const SizedBox(height: 45.0),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (taskNameController.text.isNotEmpty && selectedDate != null) {
+                  Provider.of<TaskProvider>(context, listen: false).addTask(
+                    Task(
+                      name: taskNameController.text,
+                      date: selectedDate!.toLocal().toString().split(' ')[0],
+                      design: descriptionController.text,
+                    ),
+                  );
+
+                  Navigator.pop(context);
+                }
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.red),
-                minimumSize: MaterialStateProperty.all(Size(5, 30)),
+                minimumSize: MaterialStateProperty.all(const Size(5, 30)),
               ),
-              child: Text(
+              child: const Text(
                 'Add a task',
                 style: TextStyle(color: Colors.white),
               ),
