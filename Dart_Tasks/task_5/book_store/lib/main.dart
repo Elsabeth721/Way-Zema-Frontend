@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,6 +7,33 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Lottie.asset('images/ani.json'),
+              ElevatedButton(
+                onPressed: () {
+                 const MainPage();
+                  
+                },
+                child: const Text('Get Started'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -108,19 +136,19 @@ class MyApp extends StatelessWidget {
                                 Icon(Icons.pause,
                                     color: Colors.white, size: 25.0),
                                 SizedBox(
-                                  width: 25.0,
+                                  width: 27.0,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                                  padding: EdgeInsets.fromLTRB(5, 15, 5, 5),
                                   child: Text('Today a reader \n tommorow a',
                                       style: TextStyle(
-                                        fontSize: 18,
-                                        color: Color.fromRGBO(248, 248, 247, 1),
+                                        fontSize: 19,
+                                        color: Color.fromRGBO(225, 225, 221, 1),
                                         fontWeight: FontWeight.w500,
                                         letterSpacing: 0.09,
                                       )),
                                 ),
-                                SizedBox(width: 25.0),
+                                SizedBox(width: 20.0),
                                 Icon(Icons.pause,
                                     color: Colors.white, size: 25.0)
                               ],
@@ -160,7 +188,7 @@ class MyApp extends StatelessWidget {
                     height: 20.0,
                   ),
                   const Padding(
-                    padding: EdgeInsets.fromLTRB(2.0, 2.0, 210.0, 2.0),
+                    padding: EdgeInsets.fromLTRB(1.0, 2.0, 250.0, 2.0),
                     child: Text('Categories',
                         style: TextStyle(
                             color: Color.fromRGBO(51, 51, 51, 1),
@@ -314,7 +342,166 @@ class MyApp extends StatelessWidget {
             ),
           ],
         ),
-        bottomNavigationBar: NavigationBar(),
+        bottomNavigationBar: BottomNavigationBar(items: const [
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('images/web-content.png'),
+                size: 25.0,
+                color: Colors.black,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('images/open-book.png'),
+                size: 25.0,
+                color: Colors.black,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('images/home-button 1.png'),
+                size: 25.0,
+                color: Colors.black,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('images/book.png'),
+                size: 25.0,
+                color: Colors.black,
+              ),
+              label: ''),
+          BottomNavigationBarItem(
+              icon: ImageIcon(
+                AssetImage('images/user (2) 1.png'),
+                size: 25.0,
+                color: Colors.black,
+              ),
+              label: ''),
+        ]),
+      ),
+    );
+  }
+}
+
+class Animator extends StatelessWidget {
+  const Animator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Column(
+              children: [
+                Image.asset('images/cosmos.jpg'),
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                  ),
+                  child: Column(
+                    children: [
+                      const Text('cosmos'),
+                      const Text('book by slang'),
+                      const Row(
+                        children: [
+                          Icon(Icons.star),
+                          Icon(Icons.star),
+                          Icon(Icons.star),
+                          Icon(Icons.star),
+                          Icon(Icons.star),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            width: 45,
+                            height: 20,
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
+                            child: const Text('Free'),
+                          ),
+                          const SizedBox(width: 3),
+                          Container(
+                            width: 45,
+                            height: 20,
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
+                            child: const Icon(Icons.heart_broken),
+                          ),
+                          const SizedBox(width: 3),
+                          Container(
+                            width: 45,
+                            height: 20,
+                            decoration:
+                                const BoxDecoration(color: Colors.white),
+                            child: const Icon(Icons.share),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [
+                    const Text('Book Information'),
+                    const Text(
+                        'Cosmos is one of the best selling science books of \n all time. In clear-eyed prose, Sagan reveals a jewel- \n like blue world inhabited by a life form that is just...'),
+                    const SizedBox(height: 10),
+                    Text('About Author'),
+                    SizedBox(height: 10),
+                    const Text(
+                        'Cosmos is one of the best selling science books of \n all time. In clear-eyed prose, Sagan reveals a jewel- \n like blue world inhabited by a life form that is just...'),
+                    SizedBox(height: 15),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('User review'),
+                        Icon(Icons.chevron_right)
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    const ListTile(
+                      leading: CircleAvatar(
+                        radius: 20.0,
+                        backgroundImage: AssetImage('images/book.png'),
+                      ),
+                      title: Text('Gemechis'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('This is Amazing Book'),
+                          Text('Oct 2023'),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Related Books'),
+                        Icon(Icons.chevron_right)
+                      ],
+                    ),
+                    Stacked(),
+                    SizedBox(height: 5),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.blue),
+                      onPressed: () {},
+                      child: Text('Start Reading'),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -333,8 +520,13 @@ class Ratecontainer extends StatelessWidget {
             color: Colors.orange, borderRadius: BorderRadius.circular(4)),
         child: Column(
           children: [
-            const Icon(Icons.star, color: Colors.white, size: 10),
-            for (var i = 0; i < rate.length; i++) Text(rate[i])
+            const Icon(Icons.star, color: Colors.white, size: 15),
+            for (var i = 0; i < rate.length; i++)
+              Text(rate[i],
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400))
           ],
         ));
   }
@@ -371,7 +563,7 @@ class Stacked extends StatelessWidget {
     'images/i2.jpg',
     'images/i3.jpg',
   ];
-  final List<String> rates = ['5.0', '4.5', '4,0', '5.0', '4.5', '4,0'];
+  final List<String> rates = ['5.0', '4.5', '4.0', '5.0', '4.5', '4.0'];
   final List<String> texts = [
     'Papillion Based On true story',
     'Yebedel kasa Novel',
@@ -416,7 +608,16 @@ class Stacked extends StatelessWidget {
                     children: [
                       Stack(
                         children: [
-                          Imagecontainer([images[index]]),
+                          GestureDetector(
+                              onTap: () {
+                                if (index == 0) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Animator()));
+                                }
+                              },
+                              child: Imagecontainer([images[index]])),
                           Positioned(
                             top: 7,
                             right: 9,
@@ -461,8 +662,13 @@ class Ratecontainer2 extends StatelessWidget {
             color: Colors.orange, borderRadius: BorderRadius.circular(4)),
         child: Column(
           children: [
-            const Icon(Icons.star, color: Colors.white, size: 10),
-            for (var i = 0; i < rate.length; i++) Text(rate[i])
+            const Icon(Icons.star, color: Colors.white, size: 15),
+            for (var i = 0; i < rate.length; i++)
+              Text(rate[i],
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400))
           ],
         ));
   }
@@ -499,7 +705,7 @@ class Stacked2 extends StatelessWidget {
     'images/i8.jpg',
     'images/i9.jpg',
   ];
-  final List<String> rates = ['5.0', '4.5', '4,0', '5.0', '4.5', '4,0'];
+  final List<String> rates = ['5.0', '4.5', '4.0', '5.0', '4.5', '4.0'];
   final List<String> texts = [
     'Born a crime by Trevor Noha',
     'Evolution of the Learning brain',
@@ -654,64 +860,6 @@ class NewsClass extends StatelessWidget {
       ),
     );
   }
-}
-
-class NavigationBar extends StatefulWidget {
-  @override
-  _NavigationBarState createState() => _NavigationBarState();
-}
-
-class _NavigationBarState extends State<NavigationBar> {
-  int _currentIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: _currentIndex,
-      onTap: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-      items: [
-        buildNavItem(image: 'images/web-content.png', label: ''),
-        buildNavItem(image: 'images/open-book.png', label: ''),
-        buildNavItem(image: 'images/home-button 1.png', label: ''),
-        buildNavItem(image: 'images/book.png', label: ''),
-        buildNavItem(image: 'images/user (2) 1.png', label: ''),
-      ],
-    );
-  }
-
-  BottomNavigationBarItem buildNavItem(
-      {required String image, required String label}) {
-    return BottomNavigationBarItem(
-      icon: IndexedStack(
-        index: _currentIndex == items.indexOf(image) ? 1 : 0,
-        children: [
-          ImageIcon(
-            AssetImage(image),
-            color: Colors.black, 
-          ),
-          MouseRegion(
-            child: ImageIcon(
-              AssetImage(image),
-              color: Colors.black, 
-            ),
-          ),
-        ],
-      ),
-      label: label,
-    );
-  }
-
-  List<String> get items => [
-        'images/web-content.png',
-        'images/open-book.png',
-        'images/home-button 1.png',
-        'images/book.png',
-        'images/user(2) 1.png',
-      ];
 }
 
 class MyHomePage extends StatefulWidget {
