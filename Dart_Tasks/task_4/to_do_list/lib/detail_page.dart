@@ -153,7 +153,9 @@ class DetailPage extends State<DetailPageWidget> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    deleteTask(widget.task);
+                    Provider.of<TaskProvider>(context, listen: false).deleteTask(widget.task);
+                    Navigator.pop(context);
+                    //deleteTask(widget.task);
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.red),
@@ -163,7 +165,7 @@ class DetailPage extends State<DetailPageWidget> {
                 const SizedBox(width: 10.0),
                 ElevatedButton(
                   onPressed: () {
-                    _showUpdateDialog(); 
+                    _showUpdateDialog(); // Removed task argument
                   },
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -179,7 +181,6 @@ class DetailPage extends State<DetailPageWidget> {
   }
 
   Future<void> _showUpdateDialog() async {
-   
     TextEditingController nameController =
         TextEditingController(text: widget.task.name);
     TextEditingController designController =
@@ -187,7 +188,6 @@ class DetailPage extends State<DetailPageWidget> {
     TextEditingController dateController =
         TextEditingController(text: widget.task.date);
 
-  
     Task? updatedTask = await showDialog<Task>(
       context: context,
       builder: (BuildContext context) {
@@ -196,19 +196,16 @@ class DetailPage extends State<DetailPageWidget> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-         
               TextField(
                 controller: nameController,
                 decoration: const InputDecoration(labelText: 'Task Name'),
               ),
               const SizedBox(height: 8.0),
-            
               TextField(
                 controller: designController,
                 decoration: const InputDecoration(labelText: 'Task Design'),
               ),
               const SizedBox(height: 8.0),
-             
               InkWell(
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
@@ -234,21 +231,19 @@ class DetailPage extends State<DetailPageWidget> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pop();
+                Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () {
-               
                 Task newTask = Task(
                   name: nameController.text,
                   design: designController.text,
                   date: dateController.text,
                 );
-                Navigator.of(context)
-                    .pop(newTask);
+                Provider.of<TaskProvider>(context, listen: false).updateTask(widget.task, newTask);
+                Navigator.of(context).pop(newTask);
               },
               child: const Text('Update'),
             ),
@@ -257,9 +252,8 @@ class DetailPage extends State<DetailPageWidget> {
       },
     );
 
-   
     if (updatedTask != null) {
-      updateTask(widget.task, updatedTask);
+      Provider.of<TaskProvider>(context, listen: false).updateTask(widget.task, updatedTask);
     }
   }
 }

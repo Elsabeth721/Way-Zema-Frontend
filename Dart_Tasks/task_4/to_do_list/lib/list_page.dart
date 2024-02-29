@@ -52,7 +52,11 @@ class ListPageWidget extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
+      body: Consumer<TaskProvider>(
+        builder:(context, taskProvider, child){
+          List<Task> tasks =taskProvider.tasks;
+       
+      return Column(
         children: [
           const Image(image: AssetImage('images/list.png'), height: 230.0),
           const Padding(
@@ -131,6 +135,8 @@ class ListPageWidget extends StatelessWidget {
             ),
           ),
         ],
+      );
+       } ,
       ),
     );
   }
