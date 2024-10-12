@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:way_zema/pages/theme_color.dart';
 import 'package:way_zema/pages/widegets/custom_widget.dart';
 
 class LandingPage extends StatefulWidget {
@@ -45,11 +46,22 @@ class _LandingPageState extends State<LandingPage>
 
   @override
   Widget build(BuildContext context) {
-    Color blackBack = const Color(0xFF0E123E);
+    final themeColors = ThemeColors.fromContext(context);
+
     return Scaffold(
-      backgroundColor: blackBack,
       body: Stack(
         children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/image/brana4.jpg', 
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: themeColors.backgroundColor.withOpacity(0.4), 
+            ),
+          ),
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -58,27 +70,30 @@ class _LandingPageState extends State<LandingPage>
                   scale: _scaleAnimation,
                   child: ClipOval(
                     child: Image.asset(
-                      'image/logo (2).png',
+                      'assets/image/logo (2).png',
                       width: 210,
                       height: 210,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20), 
+                const SizedBox(height: 20),
                 FadeTransition(
                   opacity: _fadeAnimation,
                   child: Column(
                     children: [
-                      const Text(
-                        'Way-Zema',
-                        style: TextStyle(fontSize: 50, color: Colors.white),
+                      Text(
+                        'ዋይ-ዜማ',
+                        style: TextStyle(
+                          fontSize: 50,
+                          color: themeColors.textColor,
+                        ),
                       ),
-                      const SizedBox(height: 20), 
+                      const SizedBox(height: 20),
                       CustomButton(
-                        text: "Login",
+                        text: "ግባ",
                         onPressed: () {
-                          Navigator.pushNamed(context, '/signin'); 
+                          Navigator.pushNamed(context, '/home');
                         },
                       ),
                     ],
@@ -87,7 +102,7 @@ class _LandingPageState extends State<LandingPage>
               ],
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: 10,
             left: 0,
             right: 0,
@@ -96,11 +111,14 @@ class _LandingPageState extends State<LandingPage>
                 children: [
                   Text(
                     'frehaymanot senbet tmhrt bet',
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black)
+                    // themeColors.secondaryTextColor),
                   ),
                   Text(
-                    '2024 ||All right reserved',
-                    style: TextStyle(color: Colors.white),
+                    '2024 || All rights reserved',
+                    style: TextStyle(color: Colors.black)
+
+                    //  themeColors.secondaryTextColor),
                   ),
                 ],
               ),

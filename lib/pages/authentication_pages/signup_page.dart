@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:way_zema/pages/widegets/custom_widget.dart'; 
-import 'otp_verification.dart';
+import 'package:way_zema/pages/theme_color.dart';
+import 'package:way_zema/pages/widegets/custom_widget.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -12,17 +12,29 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _fullNameController = TextEditingController();
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  bool _isValidEmail(String email) {
+    final RegExp emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    return emailRegex.hasMatch(email);
+  }
+
   Future<void> _signUp() async {
     if (_fullNameController.text.isEmpty ||
-        _phoneController.text.isEmpty ||
+        _emailController.text.isEmpty ||
         _passwordController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill out all fields')),
+      );
+      return;
+    }
+
+    if (!_isValidEmail(_emailController.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid email address')),
       );
       return;
     }
@@ -36,24 +48,23 @@ class _SignUpPageState extends State<SignUpPage> {
 
     try {
       final signUpResponse = await Supabase.instance.client.auth.signUp(
-        phone: _phoneController.text,
+        email: _emailController.text,
         password: _passwordController.text,
       );
 
       if (signUpResponse.user == null) {
+        final errorMessage = signUpResponse.error?.message ?? 'Unknown error occurred';
+        print('Sign-up error: $errorMessage');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign-up failed')),
+          SnackBar(content: Text('Sign-up failed: $errorMessage')),
         );
-        return;
+      } else {
+        Navigator.pushNamed(
+          context,
+          '/email_verification',
+          arguments: _emailController.text,
+        );
       }
-
-      // OTP page 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => OtpVerificationPage(phoneNumber: _phoneController.text),
-        ),
-      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('An error occurred: ${e.toString()}')),
@@ -63,10 +74,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color blackBack = const Color(0xFF0E123E);
-    Color purpleColor = const Color(0xFF7258AE);
+    final themeColors = ThemeColors.fromContext(context);
+
     return Scaffold(
-      backgroundColor: blackBack,
+      backgroundColor: themeColors.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -74,20 +85,20 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'Create Account',
                   style: TextStyle(
                     fontSize: 32,
-                    color: Colors.white,
+                    color: themeColors.textColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Join your own community',
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white54,
+                    color: themeColors.secondaryTextColor,
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -95,36 +106,41 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: _fullNameController,
                   placeholder: 'Full Name',
                   icon: Icons.person,
+                  iconColor: themeColors.iconColor,
                 ),
                 CustomInputField(
-                  controller: _phoneController,
-                  placeholder: 'Phone Number',
-                  icon: Icons.phone,
+                  controller: _emailController,
+                  placeholder: 'Email',
+                  icon: Icons.email,
+                  iconColor: themeColors.iconColor,
                 ),
                 CustomInputField(
                   controller: _passwordController,
                   placeholder: 'Password',
                   icon: Icons.lock,
                   isPassword: true,
+                  iconColor: themeColors.iconColor,
                 ),
                 CustomInputField(
                   controller: _confirmPasswordController,
                   placeholder: 'Confirm Password',
                   icon: Icons.lock,
                   isPassword: true,
+                  iconColor: themeColors.iconColor,
                 ),
                 const SizedBox(height: 20),
                 CustomButton(
                   text: 'Sign Up',
                   onPressed: _signUp,
+                  backgroundColor: themeColors.purpleColor,
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Already have an account? ',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: themeColors.textColor),
                     ),
                     TextButton(
                       onPressed: () {
@@ -132,7 +148,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       child: Text(
                         'Login',
-                        style: TextStyle(color: purpleColor),
+                        style: TextStyle(color: themeColors.purpleColor),
                       ),
                     ),
                   ],
@@ -144,4 +160,8 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+}
+
+extension on AuthResponse {
+  get error => null;
 }

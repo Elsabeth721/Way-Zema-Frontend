@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:way_zema/pages/widegets/custom_widget.dart'; 
+import 'package:way_zema/pages/theme_color.dart';
+import 'package:way_zema/pages/widegets/custom_widget.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -10,13 +11,13 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   Future<void> _signIn() async {
     try {
       final response = await Supabase.instance.client.auth.signInWithPassword(
-        phone: _phoneController.text,
+        email: _emailController.text, // Use email instead of phone
         password: _passwordController.text,
       );
 
@@ -24,7 +25,7 @@ class _SignInPageState extends State<SignInPage> {
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid phone number or password')),
+          const SnackBar(content: Text('Invalid email or password')),
         );
       }
     } catch (e) {
@@ -36,11 +37,10 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color blackBack = const Color(0xFF0E123E);
-    Color purpleColor = const Color(0xFF7258AE);
+    final themeColors = ThemeColors.fromContext(context);
 
     return Scaffold(
-      backgroundColor: blackBack,
+      backgroundColor: themeColors.backgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -48,39 +48,44 @@ class _SignInPageState extends State<SignInPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Access Community',
                   style: TextStyle(
                     fontSize: 32,
-                    color: Colors.white,
+                    color: themeColors.textColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Access Your Own Community',
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white54,
+                    color: themeColors.secondaryTextColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 30),
                 CustomInputField(
-                  controller: _phoneController,
-                  placeholder: 'Phone Number',
-                  icon: Icons.phone,
+                  controller: _emailController,
+                  placeholder: 'Email',
+                  icon: Icons.email,
+                  iconColor: themeColors.iconColor,
                 ),
+                const SizedBox(height: 20),
                 CustomInputField(
                   controller: _passwordController,
                   placeholder: 'Password',
                   icon: Icons.lock,
                   isPassword: true,
+                  iconColor: themeColors.iconColor,
                 ),
                 const SizedBox(height: 20),
                 CustomButton(
                   text: 'Sign In',
                   onPressed: _signIn,
+                  backgroundColor: themeColors.purpleColor,
+                  textColor: themeColors.textColor,
                 ),
                 const SizedBox(height: 20),
                 TextButton(
@@ -89,16 +94,16 @@ class _SignInPageState extends State<SignInPage> {
                   },
                   child: Text(
                     'Forgot Password?',
-                    style: TextStyle(color: purpleColor),
+                    style: TextStyle(color: themeColors.purpleColor),
                   ),
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Don\'t have an account? ',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: themeColors.textColor),
                     ),
                     TextButton(
                       onPressed: () {
@@ -106,7 +111,7 @@ class _SignInPageState extends State<SignInPage> {
                       },
                       child: Text(
                         'Sign Up',
-                        style: TextStyle(color: purpleColor),
+                        style: TextStyle(color: themeColors.purpleColor),
                       ),
                     ),
                   ],
